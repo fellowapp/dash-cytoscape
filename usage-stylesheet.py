@@ -91,7 +91,13 @@ app.layout = html.Div([
                         'circle',
                         'concentric',
                         'breadthfirst',
-                        'cose'
+                        'cose',
+                        'cose-bilkent',
+                        'dagre',
+                        'cola',
+                        'klay',
+                        'spread',
+                        'euler'
                     ),
                     value='grid',
                     clearable=False

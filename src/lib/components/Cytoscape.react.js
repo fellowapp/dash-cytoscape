@@ -5,8 +5,21 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import CytoscapeComponent from 'react-cytoscapejs';
+import CytoscapeJS from 'cytoscape';
+import coseBilkent from 'cytoscape-cose-bilkent';
+import cola from 'cytoscape-cola';
+import dagre from 'cytoscape-dagre';
+import euler from 'cytoscape-euler';
+import klay from 'cytoscape-klay';
+import spread from 'cytoscape-spread';
 import _ from 'lodash';
 
+CytoscapeJS.use(coseBilkent);
+CytoscapeJS.use(cola);
+CytoscapeJS.use(dagre);
+CytoscapeJS.use(euler);
+CytoscapeJS.use(klay);
+CytoscapeJS.use(spread);
 
 /**
 A Component Library for Dash aimed at facilitating network visualization in
