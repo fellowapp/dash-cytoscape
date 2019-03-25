@@ -189,14 +189,32 @@ the image, it may be prudent to invoke `'download'` for `action` instead of
 `'store'` to improve performance by preventing transfer of data to the server.
 - imageData (string; optional): String representation of the image requested with generateImage. Null if no
 image was requested yet or the previous request failed. Read-only.
-- responsive (boolean; optional): Toggles intelligent responsive resize of Cytoscape graph with viewport size change"""
+- responsive (boolean; optional): Toggles intelligent responsive resize of Cytoscape graph with viewport size change
+- operation (dict; optional): [Fellow] An invocation mechanism for customized, pre-defined operations
+on the graph.
+
+    1. Expected dictionary attributes:
+    - `command` (string): Name of the operation
+    - `timestamp` (string): Set a time later than the previous timestamp.
+    The component will not re-apply an operation with a stale timestamp.
+    - `args` (dictionary): Arguments required by the operation.
+
+    2. Supported operations:
+    - `locateNode`: Position and zoom the graph viewport over the element
+    specified by the `selector` (and, therefore, allows for searching the
+    graph).
+        - Argument:
+            - `selector`: The node to locate in Cytoscape selector syntax
+
+    3. Limitations:
+    - The operation happens before the Cytoscape element renders."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, className=Component.UNDEFINED, style=Component.UNDEFINED, elements=Component.UNDEFINED, stylesheet=Component.UNDEFINED, layout=Component.UNDEFINED, pan=Component.UNDEFINED, zoom=Component.UNDEFINED, panningEnabled=Component.UNDEFINED, userPanningEnabled=Component.UNDEFINED, minZoom=Component.UNDEFINED, maxZoom=Component.UNDEFINED, zoomingEnabled=Component.UNDEFINED, userZoomingEnabled=Component.UNDEFINED, boxSelectionEnabled=Component.UNDEFINED, autoungrabify=Component.UNDEFINED, autolock=Component.UNDEFINED, autounselectify=Component.UNDEFINED, autoRefreshLayout=Component.UNDEFINED, tapNode=Component.UNDEFINED, tapNodeData=Component.UNDEFINED, tapEdge=Component.UNDEFINED, tapEdgeData=Component.UNDEFINED, mouseoverNodeData=Component.UNDEFINED, mouseoverEdgeData=Component.UNDEFINED, selectedNodeData=Component.UNDEFINED, selectedEdgeData=Component.UNDEFINED, generateImage=Component.UNDEFINED, imageData=Component.UNDEFINED, responsive=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'className', 'style', 'elements', 'stylesheet', 'layout', 'pan', 'zoom', 'panningEnabled', 'userPanningEnabled', 'minZoom', 'maxZoom', 'zoomingEnabled', 'userZoomingEnabled', 'boxSelectionEnabled', 'autoungrabify', 'autolock', 'autounselectify', 'autoRefreshLayout', 'tapNode', 'tapNodeData', 'tapEdge', 'tapEdgeData', 'mouseoverNodeData', 'mouseoverEdgeData', 'selectedNodeData', 'selectedEdgeData', 'generateImage', 'imageData', 'responsive']
+    def __init__(self, id=Component.UNDEFINED, className=Component.UNDEFINED, style=Component.UNDEFINED, elements=Component.UNDEFINED, stylesheet=Component.UNDEFINED, layout=Component.UNDEFINED, pan=Component.UNDEFINED, zoom=Component.UNDEFINED, panningEnabled=Component.UNDEFINED, userPanningEnabled=Component.UNDEFINED, minZoom=Component.UNDEFINED, maxZoom=Component.UNDEFINED, zoomingEnabled=Component.UNDEFINED, userZoomingEnabled=Component.UNDEFINED, boxSelectionEnabled=Component.UNDEFINED, autoungrabify=Component.UNDEFINED, autolock=Component.UNDEFINED, autounselectify=Component.UNDEFINED, autoRefreshLayout=Component.UNDEFINED, tapNode=Component.UNDEFINED, tapNodeData=Component.UNDEFINED, tapEdge=Component.UNDEFINED, tapEdgeData=Component.UNDEFINED, mouseoverNodeData=Component.UNDEFINED, mouseoverEdgeData=Component.UNDEFINED, selectedNodeData=Component.UNDEFINED, selectedEdgeData=Component.UNDEFINED, generateImage=Component.UNDEFINED, imageData=Component.UNDEFINED, responsive=Component.UNDEFINED, operation=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'className', 'style', 'elements', 'stylesheet', 'layout', 'pan', 'zoom', 'panningEnabled', 'userPanningEnabled', 'minZoom', 'maxZoom', 'zoomingEnabled', 'userZoomingEnabled', 'boxSelectionEnabled', 'autoungrabify', 'autolock', 'autounselectify', 'autoRefreshLayout', 'tapNode', 'tapNodeData', 'tapEdge', 'tapEdgeData', 'mouseoverNodeData', 'mouseoverEdgeData', 'selectedNodeData', 'selectedEdgeData', 'generateImage', 'imageData', 'responsive', 'operation']
         self._type = 'Cytoscape'
         self._namespace = 'dash_cytoscape'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'className', 'style', 'elements', 'stylesheet', 'layout', 'pan', 'zoom', 'panningEnabled', 'userPanningEnabled', 'minZoom', 'maxZoom', 'zoomingEnabled', 'userZoomingEnabled', 'boxSelectionEnabled', 'autoungrabify', 'autolock', 'autounselectify', 'autoRefreshLayout', 'tapNode', 'tapNodeData', 'tapEdge', 'tapEdgeData', 'mouseoverNodeData', 'mouseoverEdgeData', 'selectedNodeData', 'selectedEdgeData', 'generateImage', 'imageData', 'responsive']
+        self.available_properties = ['id', 'className', 'style', 'elements', 'stylesheet', 'layout', 'pan', 'zoom', 'panningEnabled', 'userPanningEnabled', 'minZoom', 'maxZoom', 'zoomingEnabled', 'userZoomingEnabled', 'boxSelectionEnabled', 'autoungrabify', 'autolock', 'autounselectify', 'autoRefreshLayout', 'tapNode', 'tapNodeData', 'tapEdge', 'tapEdgeData', 'mouseoverNodeData', 'mouseoverEdgeData', 'selectedNodeData', 'selectedEdgeData', 'generateImage', 'imageData', 'responsive', 'operation']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')

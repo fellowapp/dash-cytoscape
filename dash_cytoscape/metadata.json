@@ -387,6 +387,13 @@
           "value": "false",
           "computed": false
         }
+      },
+      "operation": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "[Fellow] An invocation mechanism for customized, pre-defined operations\non the graph.\n\n    1. Expected dictionary attributes:\n    - `command` (string): Name of the operation\n    - `timestamp` (string): Set a time later than the previous timestamp.\n    The component will not re-apply an operation with a stale timestamp.\n    - `args` (dictionary): Arguments required by the operation.\n\n    2. Supported operations:\n    - `locateNode`: Position and zoom the graph viewport over the element\n    specified by the `selector` (and, therefore, allows for searching the\n    graph).\n        - Argument:\n            - `selector`: The node to locate in Cytoscape selector syntax\n\n    3. Limitations:\n    - The operation happens before the Cytoscape element renders."
       }
     }
   }

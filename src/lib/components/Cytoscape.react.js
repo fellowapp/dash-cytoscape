@@ -23,6 +23,25 @@ class Cytoscape extends Component {
         this.cyResponsiveClass = false;
     }
 
+    componentDidUpdate(prevProps) {
+        if (this._cy && !_.isEmpty(this.props.operation)) {
+            if (_.isEmpty(prevProps.operation) || this.props.operation.timestamp > prevProps.operation.timestamp) {
+                if (this.props.operation.command === 'locateNode' && this.props.operation.args) {
+                    const node = this._cy.nodes(this.props.operation.args.selector)
+                    if (node.size() === 1) {
+                        this._cy.fit(node);
+                        if (this.props.operation.args.postLocateZoomFactor) {
+                            this._cy.zoom({
+                                level: this._cy.zoom() * this.props.operation.args.postLocateZoomFactor,
+                                position: node.position(),
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     generateNode(event) {
         const ele = event.target;
 
@@ -798,7 +817,29 @@ Cytoscape.propTypes = {
     /**
      * Toggles intelligent responsive resize of Cytoscape graph with viewport size change
      */
-    responsive: PropTypes.bool
+    responsive: PropTypes.bool,
+
+    /**
+     * [Fellow] An invocation mechanism for customized, pre-defined operations
+     * on the graph.
+     *
+     *     1. Expected dictionary attributes:
+     *     - `command` (string): Name of the operation
+     *     - `timestamp` (string): Set a time later than the previous timestamp.
+     *     The component will not re-apply an operation with a stale timestamp.
+     *     - `args` (dictionary): Arguments required by the operation.
+     *
+     *     2. Supported operations:
+     *     - `locateNode`: Position and zoom the graph viewport over the element
+     *     specified by the `selector` (and, therefore, allows for searching the
+     *     graph).
+     *         - Argument:
+     *             - `selector`: The node to locate in Cytoscape selector syntax
+     *
+     *     3. Limitations:
+     *     - The operation happens before the Cytoscape element renders.
+     */
+    operation: PropTypes.object
 };
 
 Cytoscape.defaultProps = {
