@@ -21,11 +21,16 @@ export default class Cytoscape extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        console.log('cDU 1', this.props, prevProps);
         if (this._cy && !_.isEmpty(this.props.operation)) {
+            console.log('cDU 2 --- processing operation A', this.props.operation);
             if (_.isEmpty(prevProps.operation) || this.props.operation.timestamp > prevProps.operation.timestamp) {
+                console.log('cDU 3 --- processing operation B', this.props.operation);
                 if (this.props.operation.command === 'locateNode' && this.props.operation.args) {
+                    console.log('cDU 4 --- processing operation C', this.props.operation);
                     const node = this._cy.nodes(this.props.operation.args.selector)
                     if (node.size() === 1) {
+                        console.log('cDU 5 --- processing operation D', this.props.operation);
                         this._cy.fit(node);
                         if (this.props.operation.args.postLocateZoomFactor) {
                             this._cy.zoom({
@@ -37,6 +42,7 @@ export default class Cytoscape extends Component {
                 }
             }
         }
+        console.log('cDU 6');
     }
 
     generateNode(event) {
