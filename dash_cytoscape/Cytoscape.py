@@ -165,6 +165,7 @@ default (if true, overrides individual element state).
 - selectedNodeData (list; optional): The list of data dictionaries of all selected nodes (e.g. using
 Shift+Click to select multiple nodes, or Shift+Drag to use box selection). Read-only.
 - selectedEdgeData (list; optional): The list of data dictionaries of all selected edges (e.g. using
+<<<<<<< HEAD
 Shift+Click to select multiple nodes, or Shift+Drag to use box selection). Read-only.
 - generateImage (dict; optional): Dictionary specifying options to generate an image of the current cytoscape graph.
 Value is cleared after data is received and image is generated. This property will
@@ -190,6 +191,9 @@ the image, it may be prudent to invoke `'download'` for `action` instead of
 - imageData (string; optional): String representation of the image requested with generateImage. Null if no
 image was requested yet or the previous request failed. Read-only.
 - responsive (boolean; optional): Toggles intelligent responsive resize of Cytoscape graph with viewport size change
+=======
+Shift+Click to select multiple nodes, or Shift+Drag to use box selection).
+>>>>>>> catch up with upstream changes
 - operation (dict; optional): [Fellow] An invocation mechanism for customized, pre-defined operations
 on the graph.
 
@@ -214,7 +218,11 @@ on the graph.
         self._type = 'Cytoscape'
         self._namespace = 'dash_cytoscape'
         self._valid_wildcard_attributes =            []
+<<<<<<< HEAD
         self.available_properties = ['id', 'className', 'style', 'elements', 'stylesheet', 'layout', 'pan', 'zoom', 'panningEnabled', 'userPanningEnabled', 'minZoom', 'maxZoom', 'zoomingEnabled', 'userZoomingEnabled', 'boxSelectionEnabled', 'autoungrabify', 'autolock', 'autounselectify', 'autoRefreshLayout', 'tapNode', 'tapNodeData', 'tapEdge', 'tapEdgeData', 'mouseoverNodeData', 'mouseoverEdgeData', 'selectedNodeData', 'selectedEdgeData', 'generateImage', 'imageData', 'responsive', 'operation']
+=======
+        self.available_properties = ['id', 'className', 'style', 'elements', 'stylesheet', 'layout', 'pan', 'zoom', 'panningEnabled', 'userPanningEnabled', 'minZoom', 'maxZoom', 'zoomingEnabled', 'userZoomingEnabled', 'boxSelectionEnabled', 'autoungrabify', 'autolock', 'autounselectify', 'autoRefreshLayout', 'tapNode', 'tapNodeData', 'tapEdge', 'tapEdgeData', 'mouseoverNodeData', 'mouseoverEdgeData', 'selectedNodeData', 'selectedEdgeData', 'operation']
+>>>>>>> catch up with upstream changes
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')
