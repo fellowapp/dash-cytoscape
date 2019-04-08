@@ -9,6 +9,7 @@ import dash as _dash
 # noinspection PyUnresolvedReferences
 from ._imports_ import *
 from ._imports_ import __all__
+from . import utils
 
 
 if not hasattr(_dash, 'development'):
@@ -90,3 +91,32 @@ def load_extra_layouts():
             'namespace': package_name
         }
     ]
+
+
+def _display_default_values():
+    out_string = ""
+
+    metadata_path = _os.path.join(
+        _os.path.dirname(_os.path.realpath(__file__)),
+        'metadata.json'
+    )
+
+    with open(metadata_path, 'r') as file:
+        data = json.loads(file.read())
+
+    for component in data:
+        component_name = component.replace('src/lib/components/', '').replace('.react.js', '')
+        metadata = data[component]
+        props = metadata['props']
+
+        out_string += "## {} Default Values\n\n".format(component_name)
+
+        for prop_name in props:
+            prop = props[prop_name]
+
+            if 'defaultValue' in prop:
+                default = prop['defaultValue']['value']
+
+                out_string += "* *{}*: {}\n".format(prop_name, default)
+
+    return out_string

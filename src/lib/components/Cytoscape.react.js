@@ -177,6 +177,56 @@ class Cytoscape extends Component {
         window.cy = cy;
         this._handleCyCalled = true;
 
+        // ///////////////////////////////////// CONSTANTS /////////////////////////////////////////
+        const SELECT_THRESHOLD = 100;
+
+        const selectedNodes = cy.collection();
+        const selectedEdges = cy.collection();
+
+        // ///////////////////////////////////// FUNCTIONS /////////////////////////////////////////
+        const refreshLayout = _.debounce(() => {
+            /**
+             * Refresh Layout if needed
+             */
+            const {
+                autoRefreshLayout,
+                layout
+            } = this.props;
+
+            if (autoRefreshLayout) {
+                cy.layout(layout).run()
+            }
+        }, SELECT_THRESHOLD);
+
+        const sendSelectedNodesData = _.debounce(() => {
+            /**
+             This function is repetitively called every time a node is selected
+             or unselected, but keeps being debounced if it is called again
+             within 100 ms (given by SELECT_THRESHOLD). Effectively, it only
+             runs when all the nodes have been correctly selected/unselected and
+             added/removed from the selectedNodes collection, and then updates
+             the selectedNodeData prop.
+             */
+            const nodeData = selectedNodes.map(el => el.data());
+
+            if (typeof this.props.setProps === 'function') {
+                this.props.setProps({
+                    selectedNodeData: nodeData
+                })
+            }
+        }, SELECT_THRESHOLD);
+
+        const sendSelectedEdgesData = _.debounce(() => {
+            const edgeData = selectedEdges.map(el => el.data());
+
+            if (typeof this.props.setProps === 'function') {
+                this.props.setProps({
+                    selectedEdgeData: edgeData
+                })
+            }
+        }, SELECT_THRESHOLD);
+
+        // /////////////////////////////////////// EVENTS //////////////////////////////////////////
         cy.on('tap', 'node', event => {
             const nodeObject = this.generateNode(event);
 
@@ -215,40 +265,6 @@ class Cytoscape extends Component {
             }
         });
 
-        // SELECTED DATA
-        const SELECT_THRESHOLD = 100;
-
-        const selectedNodes = cy.collection();
-        const selectedEdges = cy.collection();
-
-        const sendSelectedNodesData = _.debounce(() => {
-            /*
-            This function is repetitively called every time a node is selected
-            or unselected, but keeps being debounced if it is called again
-            within 100 ms (given by SELECT_THRESHOLD). Effectively, it only
-            runs when all the nodes have been correctly selected/unselected and
-            added/removed from the selectedNodes collection, and then updates
-            the selectedNodeData prop.
-             */
-            const nodeData = selectedNodes.map(el => el.data());
-
-            if (typeof this.props.setProps === 'function') {
-                this.props.setProps({
-                    selectedNodeData: nodeData
-                })
-            }
-        }, SELECT_THRESHOLD);
-
-        const sendSelectedEdgesData = _.debounce(() => {
-            const edgeData = selectedEdges.map(el => el.data());
-
-            if (typeof this.props.setProps === 'function') {
-                this.props.setProps({
-                    selectedEdgeData: edgeData
-                })
-            }
-        }, SELECT_THRESHOLD);
-
         cy.on('select', 'node', event => {
             const ele = event.target;
 
@@ -256,7 +272,7 @@ class Cytoscape extends Component {
             sendSelectedNodesData();
         });
 
-        cy.on('unselect', 'node', event => {
+        cy.on('unselect remove', 'node', event => {
             const ele = event.target;
 
             selectedNodes.unmerge(ele);
@@ -270,25 +286,12 @@ class Cytoscape extends Component {
             sendSelectedEdgesData();
         });
 
-        cy.on('unselect', 'edge', event => {
+        cy.on('unselect remove', 'edge', event => {
             const ele = event.target;
 
             selectedEdges.unmerge(ele);
             sendSelectedEdgesData();
         });
-
-
-        // Refresh Layout if needed
-        const refreshLayout = _.debounce(() => {
-            const {
-                autoRefreshLayout,
-                layout
-            } = this.props;
-
-            if (autoRefreshLayout) {
-                cy.layout(layout).run()
-            }
-        }, SELECT_THRESHOLD);
 
         cy.on('add remove', () => {
             refreshLayout();
@@ -327,7 +330,7 @@ class Cytoscape extends Component {
                 cy={this.handleCy}
                 className={className}
                 style={style}
-                elements={elements}
+                elements={CytoscapeComponent.normalizeElements(elements)}
                 stylesheet={stylesheet}
                 layout={layout}
                 pan={pan}
@@ -541,7 +544,7 @@ Cytoscape.propTypes = {
     // User Events Props
 
     /**
-     * The complete node dictionary returned when you tap or click it.
+     * The complete node dictionary returned when you tap or click it. Read-only.
      *
      *     1. Node-specific items:
      *         - `edgesData` (dictionary)
@@ -574,12 +577,12 @@ Cytoscape.propTypes = {
     tapNode: PropTypes.object,
 
     /**
-     * The data dictionary of a node returned when you tap or click it.
+     * The data dictionary of a node returned when you tap or click it. Read-only.
      */
     tapNodeData: PropTypes.object,
 
     /**
-     * The complete edge dictionary returned when you tap or click it.
+     * The complete edge dictionary returned when you tap or click it. Read-only.
      *
      *     1. Edge-specific items:
      *         - `isLoop` (boolean)
@@ -604,29 +607,29 @@ Cytoscape.propTypes = {
     tapEdge: PropTypes.object,
 
     /**
-     * The data dictionary of an edge returned when you tap or click it.
+     * The data dictionary of an edge returned when you tap or click it. Read-only.
      */
     tapEdgeData: PropTypes.object,
 
     /**
-     * The data dictionary of a node returned when you hover over it.
+     * The data dictionary of a node returned when you hover over it. Read-only.
      */
     mouseoverNodeData: PropTypes.object,
 
     /**
-     * The data dictionary of an edge returned when you hover over it.
+     * The data dictionary of an edge returned when you hover over it. Read-only.
      */
     mouseoverEdgeData: PropTypes.object,
 
     /**
      * The list of data dictionaries of all selected nodes (e.g. using
-     * Shift+Click to select multiple nodes, or Shift+Drag to use box selection).
+     * Shift+Click to select multiple nodes, or Shift+Drag to use box selection). Read-only.
      */
     selectedNodeData: PropTypes.array,
 
     /**
      * The list of data dictionaries of all selected edges (e.g. using
-     * Shift+Click to select multiple nodes, or Shift+Drag to use box selection).
+     * Shift+Click to select multiple nodes, or Shift+Drag to use box selection). Read-only.
      */
     selectedEdgeData: PropTypes.array,
 
@@ -655,7 +658,19 @@ Cytoscape.propTypes = {
 
 Cytoscape.defaultProps = {
     style: {width: '600px', height: '600px'},
-    layout: {name: 'random'},
+    layout: {name: 'grid'},
+    pan: {x: 0, y: 0},
+    zoom: 1,
+    minZoom: 1e-50,
+    maxZoom: 1e50,
+    zoomingEnabled: true,
+    userZoomingEnabled: true,
+    panningEnabled: true,
+    userPanningEnabled: true,
+    boxSelectionEnabled: false,
+    autolock: false,
+    autoungrabify: false,
+    autounselectify: false,
     autoRefreshLayout: true
 };
 
