@@ -166,6 +166,7 @@ default (if true, overrides individual element state).
 Shift+Click to select multiple nodes, or Shift+Drag to use box selection). Read-only.
 - selectedEdgeData (list; optional): The list of data dictionaries of all selected edges (e.g. using
 <<<<<<< HEAD
+<<<<<<< HEAD
 Shift+Click to select multiple nodes, or Shift+Drag to use box selection). Read-only.
 - generateImage (dict; optional): Dictionary specifying options to generate an image of the current cytoscape graph.
 Value is cleared after data is received and image is generated. This property will
@@ -194,6 +195,9 @@ image was requested yet or the previous request failed. Read-only.
 =======
 Shift+Click to select multiple nodes, or Shift+Drag to use box selection).
 >>>>>>> catch up with upstream changes
+=======
+Shift+Click to select multiple nodes, or Shift+Drag to use box selection). Read-only.
+>>>>>>> update auto-generated components
 - operation (dict; optional): [Fellow] An invocation mechanism for customized, pre-defined operations
 on the graph.
 
