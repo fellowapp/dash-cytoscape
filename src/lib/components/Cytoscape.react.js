@@ -42,25 +42,6 @@ class Cytoscape extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
-        if (this._cy && !_.isEmpty(this.props.operation)) {
-            if (_.isEmpty(prevProps.operation) || this.props.operation.timestamp > prevProps.operation.timestamp) {
-                if (this.props.operation.command === 'locateNode' && this.props.operation.args) {
-                    const node = this._cy.nodes(this.props.operation.args.selector)
-                    if (node.size() === 1) {
-                        this._cy.fit(node);
-                        if (this.props.operation.args.postLocateZoomFactor) {
-                            this._cy.zoom({
-                                level: this._cy.zoom() * this.props.operation.args.postLocateZoomFactor,
-                                position: node.position(),
-                            });
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     generateNode(event) {
         const ele = event.target;
 
@@ -801,7 +782,7 @@ Cytoscape.propTypes = {
      * Shift+Click to select multiple nodes, or Shift+Drag to use box selection). Read-only.
      */
     selectedEdgeData: PropTypes.array,
-
+    
     /**
      * Dictionary specifying options to generate an image of the current cytoscape graph.
      * Value is cleared after data is received and image is generated. This property will
