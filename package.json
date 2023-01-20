@@ -1,6 +1,6 @@
 {
   "name": "dash-cytoscape",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A Component Library for Dash aimed at facilitating network visualization in Python, wrapped around Cytoscape.js",
   "repository": {
     "type": "git",
@@ -21,10 +21,8 @@
     "build:js-dev-extra": "webpack --config webpack.dev.extra.config.js",
     "build:js-extra": "webpack --config webpack.prod.extra.config.js",
     "build:js-all": "npm run build:js && npm run build:js-dev && npm run build:js-dev-extra && npm run build:js-extra",
-    "build:py": "dash-generate-components ./src/lib/components dash_cytoscape",
-    "build:py-activated": "(. venv/bin/activate || venv\\scripts\\activate && npm run build:py)",
-    "build:r": "dash-generate-components ./src/lib/components dash_cytoscape --r-prefix='cyto'",
-    "build:all": "npm run build:js-all && npm run build:py",
+    "build:backends": "dash-generate-components ./src/lib/components dash_cytoscape --r-prefix 'cyto' --jl-prefix 'cyto'",
+    "build:all": "npm run build:js-all && npm run build:backends",
     "build:all-activated": "(. venv/bin/activate || venv\\scripts\\activate && npm run build:all)"
   },
   "author": "The Plotly Team <cytoscape@plotly.com>",
@@ -35,14 +33,15 @@
     "cytoscape-cose-bilkent": "^4.0.0",
     "cytoscape-dagre": "^2.2.2",
     "cytoscape-euler": "^1.2.1",
+    "cytoscape-fcose": "^2.1.0",
     "cytoscape-klay": "^3.1.2",
     "cytoscape-spread": "^3.0.0",
     "cytoscape-svg": "0.2.0",
     "lodash": "^4.17.11",
     "ramda": "^0.25.0",
-    "react": "15.4.2",
+    "react": "^16.14.0",
     "react-cytoscapejs": "1.2.1",
-    "react-dom": "15.4.2"
+    "react-dom": "^16.14.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -57,7 +56,7 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react": "^7.9.1",
     "npm": "^6.14.4",
-    "react-docgen": "^2.21.0",
+    "react-docgen": "^5.3.0",
     "style-loader": "^0.21.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",

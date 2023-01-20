@@ -4,9 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.3.0] - 2021-05-19 
 
-## [0.2.0] - 20120-07-09
+### Added
+* Contributed initial build of Julia package.
+* R package now includes an example application for `cytoCytoscape`.
+
+### Changed
+* Dash has been upgraded to 1.* in requirements.txt and tests/requirements.txt (#123)
+* React/react-dom have been upgraded to 16.14+ (#117)
+* Docgen upgraded to 5.3.0 (#117)
+* Improved prop typing (#117)
+
+### Fixed
+* Various security fixes
+
+## [0.2.0] - 2020-07-09
 
 ### Added
 * Contributed initial build of R package.
